@@ -37,4 +37,7 @@ public class ApplicationPortalService {
 		return applicationPortalRepository.addTenant(tenant);
 		
 	}
+	public void deleteTenant(String email) {
+		 applicationPortalRepository.deleteTenant(email);
+	}
 }

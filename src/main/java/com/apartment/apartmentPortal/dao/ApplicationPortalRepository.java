@@ -3,14 +3,21 @@
  */
 package com.apartment.apartmentPortal.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import org.hibernate.criterion.Restrictions;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import com.apartment.apartmentPortal.Entity.ApartmentEntity;
 import com.apartment.apartmentPortal.Entity.TestTenantEntity;
@@ -69,11 +76,22 @@ public class ApplicationPortalRepository {
 	@Transactional
 	public TestTenantDTO addTenant(TestTenantEntity tenantEntity) {
 		// TODO Auto-generated method stub
-		em.persist(tenantEntity);
+		if(null != tenantEntity.getTenantId())
+			em.merge(tenantEntity);
+		else
+			em.persist(tenantEntity);
 		TestTenantDTO testTenantDTO = new TestTenantDTO();
 		mapper.map(tenantEntity,testTenantDTO);
 		System.out.println(testTenantDTO);
 		return testTenantDTO;
+	}
+	@Transactional
+	public void deleteTenant(String email) {
+		// TODO Auto-generated method stub
+		TypedQuery<TestTenantEntity> tenantQuery = em.createNamedQuery("TestTenantEntity.findByEmail", TestTenantEntity.class);
+		tenantQuery.setParameter("email", email);
+		TestTenantEntity testTenantEntity = tenantQuery.getSingleResult();
+		em.remove(testTenantEntity);
 	}
 
 }

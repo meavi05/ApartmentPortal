@@ -5,11 +5,14 @@ package com.apartment.apartmentPortal.Entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.NamedQuery;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -18,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
  *
  */
 @Entity
+@NamedQuery(name = "TestTenantEntity.findByEmail", query = "SELECT t FROM TestTenantEntity t WHERE t.email=:email")
 public class TestTenantEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -28,7 +32,7 @@ public class TestTenantEntity implements Serializable {
 	private String mobile;
 	private String email;
 	private Integer accountDetail;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JsonBackReference
 	private ApartmentEntity apartment;
 

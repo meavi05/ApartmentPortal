@@ -73,4 +73,10 @@ public class ApartmentController {
 		System.out.println(tenant);
 		return applicationPortalService.addTenant(tenant);
 	}
+	@RequestMapping(value = "/deleteTenant/{email}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public void deleteTenant(@PathVariable("email") String email) {
+		System.out.println(email);
+		 applicationPortalService.deleteTenant(email);
+	}
 }
