@@ -1,5 +1,7 @@
 package com.apartment.apartmentPortal.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,5 +41,8 @@ public class ApplicationPortalService {
 	}
 	public void deleteTenant(String email) {
 		 applicationPortalRepository.deleteTenant(email);
+	}
+	public List<TestTenantDTO> getTenantsData(String email) {
+		return applicationPortalRepository.getTenantsData(email);
 	}
 }

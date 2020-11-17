@@ -3,21 +3,17 @@
  */
 package com.apartment.apartmentPortal.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
-import org.hibernate.criterion.Restrictions;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.CollectionUtils;
 
 import com.apartment.apartmentPortal.Entity.ApartmentEntity;
 import com.apartment.apartmentPortal.Entity.TestTenantEntity;
@@ -93,5 +89,14 @@ public class ApplicationPortalRepository {
 		TestTenantEntity testTenantEntity = tenantQuery.getSingleResult();
 		em.remove(testTenantEntity);
 	}
-
+	public List<TestTenantDTO> getTenantsData(String email) {
+		// TODO Auto-generated method stub
+		UserDTO user = getUserData(email);
+		List<TestTenantDTO>tenants=new ArrayList<TestTenantDTO>();
+		List<ApartmentDTO> apartments = user.getApartments();
+		for(ApartmentDTO apartment : apartments) {
+			tenants.addAll(apartment.getTesttenants());
+		}
+		return tenants;
+	}
 }

@@ -3,6 +3,8 @@
  */
 package com.apartment.apartmentPortal.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -78,5 +80,11 @@ public class ApartmentController {
 	public void deleteTenant(@PathVariable("email") String email) {
 		System.out.println(email);
 		 applicationPortalService.deleteTenant(email);
+	}
+	@RequestMapping(value = "/getTenantsData/{email}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<TestTenantDTO> getTenantsData(@PathVariable("email") String email) {
+		System.out.println(email);
+		return applicationPortalService.getTenantsData(email);
 	}
 }

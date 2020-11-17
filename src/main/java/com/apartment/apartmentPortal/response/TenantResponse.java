@@ -1,24 +1,21 @@
 /**
  * 
  */
-package com.apartment.apartmentPortal.dto;
-
-import java.io.Serializable;
+package com.apartment.apartmentPortal.response;
 
 /**
  * @author avi08
  *
  */
-public class TestTenantDTO implements Serializable {
+public class TenantResponse {
 
-	private static final long serialVersionUID = 1L;
 	private Integer tenantId;
 	private String tenantName;
 	private String mobile;
 	private String email;
 	private Integer accountDetail;
 	private Integer apartmentId;
-
+	
 	/**
 	 * @return the tenantId
 	 */
@@ -91,8 +88,6 @@ public class TestTenantDTO implements Serializable {
 		this.accountDetail = accountDetail;
 	}
 
-	
-
 	/**
 	 * @return the apartmentId
 	 */
@@ -109,12 +104,7 @@ public class TestTenantDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "TestTenantDTO [tenantId=" + tenantId + ", tenantName=" + tenantName + ", mobile=" + mobile + ", email="
+		return "TenantResponse [tenantId=" + tenantId + ", tenantName=" + tenantName + ", mobile=" + mobile + ", email="
 				+ email + ", accountDetail=" + accountDetail + ", apartmentId=" + apartmentId + "]";
 	}
-
-
-
-	
-	
 }
