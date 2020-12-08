@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -34,6 +37,8 @@ public class ApplicationPortalRepository {
 	ModelMapper mapper;
 	@PersistenceContext
 	EntityManager em;
+	
+	private static final Logger Logger = LogManager.getLogger(ApplicationPortalRepository.class);
 	@Transactional
 	public String addUser(UserEntity userData) {
 		em.persist(userData);
@@ -48,11 +53,16 @@ public class ApplicationPortalRepository {
 		// TODO Auto-generated method stub
 		TypedQuery<UserEntity> userDataQuery = em.createNamedQuery("UserEntity.findByEmail", UserEntity.class);
 		userDataQuery.setParameter("email", email);
+		try {
 		UserEntity userDataEntity = userDataQuery.getSingleResult();
 		UserDTO userDTO = new UserDTO();
 		mapper.map(userDataEntity, userDTO);
 		return userDTO;
-		
+		}catch(NoResultException e) {
+			System.out.println(Logger.getLevel());
+			Logger.info("No user return for the given user name");
+			return null;
+		}
 	}
 	@Transactional
 	public ApartmentDTO addApartment(ApartmentEntity apartmentEntity) {

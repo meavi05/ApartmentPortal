@@ -3,6 +3,8 @@ package com.apartment.apartmentPortal.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.apartment.apartmentPortal.Entity.ApartmentEntity;
@@ -20,6 +22,8 @@ public class ApplicationPortalService {
 	@Autowired
 	ApplicationPortalRepository applicationPortalRepository;
 	public String addUser(UserEntity userData) {
+		 PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		 userData.setPassword(encoder.encode(userData.getPassword()));
 		applicationPortalRepository.addUser(userData);
 		return "ApplicationPortalService : " + "addUser";
 	}
