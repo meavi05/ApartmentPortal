@@ -43,46 +43,46 @@ public class ApartmentController {
 	public ResponseEntity<UserEntity> authorizeUser(@RequestBody UserEntity userData) {
 		System.out.println(userData);
 		applicationPortalService.authorizeUser(userData);
-		return new ResponseEntity<UserEntity>(userData,HttpStatus.OK);
+		return new ResponseEntity<UserEntity>(userData, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/getUserData/{email}", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> getUserData(@PathVariable("email") String email) {
 		System.out.println(email);
 		UserDTO userDto = applicationPortalService.getUserData(email);
-		return new ResponseEntity<UserDTO>(userDto,HttpStatus.OK);
+		return new ResponseEntity<UserDTO>(userDto, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/addApartment", method = RequestMethod.POST)
 	public ResponseEntity<ApartmentDTO> addApartment(@RequestBody ApartmentEntity apartment) {
 		System.out.println(apartment);
 		ApartmentDTO returnApartment = applicationPortalService.addApartment(apartment);
-		return new ResponseEntity<ApartmentDTO>(returnApartment,HttpStatus.OK);
+		return new ResponseEntity<ApartmentDTO>(returnApartment, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
-		public ResponseEntity<UserEntity> addUser(@RequestBody UserEntity userData) {
-			System.out.println(userData);
+	public ResponseEntity<UserEntity> addUser(@RequestBody UserEntity userData) {
+		System.out.println(userData);
 		applicationPortalService.addUser(userData);
-		return  new ResponseEntity<UserEntity>(userData,HttpStatus.OK);
+		return new ResponseEntity<UserEntity>(userData, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/addTenant", method = RequestMethod.POST)
 	public ResponseEntity<TestTenantDTO> addTenant(@RequestBody TestTenantEntity tenant) {
 		System.out.println(tenant);
-		return new ResponseEntity<TestTenantDTO>(applicationPortalService.addTenant(tenant),HttpStatus.OK);
+		return new ResponseEntity<TestTenantDTO>(applicationPortalService.addTenant(tenant), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/deleteTenant/{email}", method = RequestMethod.DELETE)
 	public ResponseEntity<String> deleteTenant(@PathVariable("email") String email) {
 		System.out.println(email);
-		 applicationPortalService.deleteTenant(email);
-		 return new ResponseEntity<String>("Tenant Deleted",HttpStatus.OK);
+		applicationPortalService.deleteTenant(email);
+		return new ResponseEntity<String>("Tenant Deleted", HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/getTenantsData/{email}", method = RequestMethod.GET)
 	public ResponseEntity<List<TestTenantDTO>> getTenantsData(@PathVariable("email") String email) {
 		System.out.println(email);
-		return new ResponseEntity<List<TestTenantDTO>>(applicationPortalService.getTenantsData(email),HttpStatus.OK);
+		return new ResponseEntity<List<TestTenantDTO>>(applicationPortalService.getTenantsData(email), HttpStatus.OK);
 	}
 }
