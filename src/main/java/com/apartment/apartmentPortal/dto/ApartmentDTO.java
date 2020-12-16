@@ -19,8 +19,8 @@ public class ApartmentDTO implements Serializable {
 	private String location;
 	private String apartmentOwner;
 	private Integer userId;
-	List<TenantDTO> tenants;
-	List<TestTenantDTO> testtenants;
+	List<TenantDTO_Old> tenants;
+	List<TenantDTO> testtenants;
 	
 	/**
 	 * @return the apartmentNumber
@@ -97,25 +97,25 @@ public class ApartmentDTO implements Serializable {
 	/**
 	 * @return the tenants
 	 */
-	public List<TenantDTO> getTenants() {
+	public List<TenantDTO_Old> getTenants() {
 		return tenants;
 	}
 	/**
 	 * @param tenants the tenants to set
 	 */
-	public void setTenants(List<TenantDTO> tenants) {
+	public void setTenants(List<TenantDTO_Old> tenants) {
 		this.tenants = tenants;
 	}
 	/**
 	 * @return the testtenants
 	 */
-	public List<TestTenantDTO> getTesttenants() {
+	public List<TenantDTO> getTesttenants() {
 		return testtenants;
 	}
 	/**
 	 * @param testtenants the testtenants to set
 	 */
-	public void setTesttenants(List<TestTenantDTO> testtenants) {
+	public void setTesttenants(List<TenantDTO> testtenants) {
 		this.testtenants = testtenants;
 	}
 	@Override

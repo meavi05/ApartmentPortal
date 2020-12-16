@@ -50,7 +50,7 @@ public class ApartmentEntity implements Serializable {
 	 */
 	//@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL)
-	List<TenantEntity> tenants;
+	List<TenantEntity_Old> tenants;
 	
 	
 	/**
@@ -59,7 +59,7 @@ public class ApartmentEntity implements Serializable {
 	 */
 	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL,mappedBy="apartment")
-	List<TestTenantEntity> testtenants;
+	List<TenantEntity> testtenants;
 	
 	/**
 	 * @return the apartmentNumber
@@ -136,25 +136,25 @@ public class ApartmentEntity implements Serializable {
 	/**
 	 * @return the tenants
 	 */
-	public List<TenantEntity> getTenants() {
+	public List<TenantEntity_Old> getTenants() {
 		if(null==tenants) {
-			tenants = new ArrayList<TenantEntity>();
+			tenants = new ArrayList<TenantEntity_Old>();
 		}
 		return tenants;
 	}
 	/**
 	 * @param tenants the tenants to set
 	 */
-	public void setTenants(List<TenantEntity> tenants) {
+	public void setTenants(List<TenantEntity_Old> tenants) {
 		this.tenants = tenants;
 	}
-	public List<TestTenantEntity> getTesttenants() {
+	public List<TenantEntity> getTesttenants() {
 		if(null==testtenants) {
-			testtenants = new ArrayList<TestTenantEntity>();
+			testtenants = new ArrayList<TenantEntity>();
 		}
 		return testtenants;
 	}
-	public void setTesttenants(List<TestTenantEntity> testtenants) {
+	public void setTesttenants(List<TenantEntity> testtenants) {
 		this.testtenants = testtenants;
 	}
 	@Override

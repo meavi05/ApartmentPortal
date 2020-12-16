@@ -5,36 +5,26 @@ package com.apartment.apartmentPortal.Entity;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.NamedQuery;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * @author avi08
  *
  */
 @Entity
-@NamedQuery(name = "TestTenantEntity.findByEmail", query = "SELECT t FROM TestTenantEntity t WHERE t.email=:email")
-public class TestTenantEntity implements Serializable {
+public class TenantEntity_Old implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer tenantId;
-	private String tenantName;
+	private String name;
 	private String mobile;
 	private String email;
 	private Integer accountDetail;
-	@ManyToOne(cascade = CascadeType.MERGE)
-	@JsonBackReference
-	private ApartmentEntity apartment;
 
 	/**
 	 * @return the tenantId
@@ -50,19 +40,18 @@ public class TestTenantEntity implements Serializable {
 		this.tenantId = tenantId;
 	}
 
-	
 	/**
-	 * @return the tenantName
+	 * @return the name
 	 */
-	public String getTenantName() {
-		return tenantName;
+	public String getName() {
+		return name;
 	}
 
 	/**
-	 * @param tenantName the tenantName to set
+	 * @param name the name to set
 	 */
-	public void setTenantName(String tenantName) {
-		this.tenantName = tenantName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -106,20 +95,19 @@ public class TestTenantEntity implements Serializable {
 	public void setAccountDetail(Integer accountDetail) {
 		this.accountDetail = accountDetail;
 	}
+	/**
+	 * @return the apartment
+	 */
+	/*
+	 * public Apartment getApartment() { return apartment; }
+	 *//**
+		 * @param apartment the apartment to set
+		 *//*
+			 * public void setApartment(Apartment apartment) { this.apartment = apartment; }
+			 * 
+			 * @Override public String toString() { return "Tenant [tenantId=" + tenantId +
+			 * ", name=" + name + ", mobile=" + mobile + ", email=" + email + ", apartment="
+			 * + apartment + ", accountDetail=" + accountDetail + "]"; }
+			 */
 
-	public ApartmentEntity getApartment() {
-		return apartment;
-	}
-
-	public void setApartment(ApartmentEntity apartment) {
-		this.apartment = apartment;
-	}
-
-	@Override
-	public String toString() {
-		return "TestTenant [tenantId=" + tenantId + ", name=" + tenantName + ", mobile=" + mobile + ", email=" + email
-				+ ", accountDetail=" + accountDetail + ", apartment=" + apartment + "]";
-	}
-	
-	
 }

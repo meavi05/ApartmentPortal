@@ -19,11 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.apartment.apartmentPortal.Entity.ApartmentEntity;
-import com.apartment.apartmentPortal.Entity.TestTenantEntity;
+import com.apartment.apartmentPortal.Entity.TenantEntity;
 import com.apartment.apartmentPortal.Entity.UserEntity;
-import com.apartment.apartmentPortal.dto.ApartmentDTO;
-import com.apartment.apartmentPortal.dto.TestTenantDTO;
-import com.apartment.apartmentPortal.dto.UserDTO;
+import com.apartment.apartmentPortal.exception.CustomException;
+
 /*
  * 
  */
@@ -33,80 +32,100 @@ import com.apartment.apartmentPortal.dto.UserDTO;
  */
 @Repository
 public class ApplicationPortalRepository {
+	
 	@Autowired
 	ModelMapper mapper;
 	@PersistenceContext
 	EntityManager em;
-	
+
 	private static final Logger Logger = LogManager.getLogger(ApplicationPortalRepository.class);
+
 	@Transactional
-	public String addUser(UserEntity userData) {
-		em.persist(userData);
-				return "ApplicationPortalService : " + "addUser";
+	public UserEntity register(UserEntity user) throws CustomException {
+		Logger.debug("Inside addUser method: Start", ApplicationPortalRepository.class);
+		em.persist(user);
+		Logger.debug("Inside addUser method: End", ApplicationPortalRepository.class);
+		return user;
 	}
-	public void authorizeUser(UserEntity userData) {
-		// TODO Auto-generated method stub
-		
-		
-	}
-	public UserDTO getUserData(String email) {
-		// TODO Auto-generated method stub
+
+	public UserEntity getUser(String email) {
+		Logger.debug("Inside getUserData method: Start", ApplicationPortalRepository.class);
+		UserEntity userEntity = null;
 		TypedQuery<UserEntity> userDataQuery = em.createNamedQuery("UserEntity.findByEmail", UserEntity.class);
 		userDataQuery.setParameter("email", email);
 		try {
-		UserEntity userDataEntity = userDataQuery.getSingleResult();
-		UserDTO userDTO = new UserDTO();
-		mapper.map(userDataEntity, userDTO);
-		return userDTO;
-		}catch(NoResultException e) {
-			System.out.println(Logger.getLevel());
-			Logger.info("No user return for the given user name");
+			userEntity = userDataQuery.getSingleResult();
+		} catch (NoResultException e) {
+			Logger.debug("No user return for the given user name", ApplicationPortalRepository.class);
 			return null;
 		}
+		Logger.debug("Inside getUserData method: End", ApplicationPortalRepository.class);
+		return userEntity;
 	}
+
 	@Transactional
-	public ApartmentDTO addApartment(ApartmentEntity apartmentEntity) {
-		/*
-		 * Tenant tenant = new Tenant(); tenant.setName("Shivam");
-		 * apartment.getTenants().add(tenant); TestTenant testTenant = new TestTenant();
-		 * testTenant.setApartment(apartment); testTenant.setName("Praveen");
-		 * apartment.getTesttenants().add(testTenant);
-		 */
+	public ApartmentEntity addApartment(ApartmentEntity apartmentEntity) {
+		Logger.debug("Inside addApartment method: Start", ApplicationPortalRepository.class);
 		em.persist(apartmentEntity);
-		em.flush();
-		ApartmentDTO apartmentDTO = new ApartmentDTO();
-		mapper.map(apartmentEntity,apartmentDTO);
-		return apartmentDTO;
-		
+		Logger.debug("Inside addApartment method: End", ApplicationPortalRepository.class);
+		return apartmentEntity;
 	}
+	
+	public ApartmentEntity getApartment(Integer apartmentNumber) {
+		Logger.debug("Inside getApartment method: Start", ApplicationPortalRepository.class);
+		ApartmentEntity apartmentEntity = null;
+		TypedQuery<ApartmentEntity> apartmentDataQuery = em.createNamedQuery("ApartmentEntity.findByApartmentNumber", ApartmentEntity.class);
+		apartmentDataQuery.setParameter("apartmentNumber", apartmentNumber);
+		try {
+			apartmentEntity = apartmentDataQuery.getSingleResult();
+		} catch (NoResultException e) {
+			Logger.debug("No apartment return for the given apartment number", ApplicationPortalRepository.class);
+			return null;
+		}
+		Logger.debug("Inside getApartment method: End", ApplicationPortalRepository.class);
+		return apartmentEntity;
+	}
+
 	@Transactional
-	public TestTenantDTO addTenant(TestTenantEntity tenantEntity) {
-		// TODO Auto-generated method stub
-		if(null != tenantEntity.getTenantId())
+	public TenantEntity addTenant(TenantEntity tenantEntity) {
+		Logger.debug("Inside addTenant method: Start", ApplicationPortalRepository.class);
+		if (null != getTenant(tenantEntity.getEmail()))
 			em.merge(tenantEntity);
 		else
 			em.persist(tenantEntity);
-		TestTenantDTO testTenantDTO = new TestTenantDTO();
-		mapper.map(tenantEntity,testTenantDTO);
-		System.out.println(testTenantDTO);
-		return testTenantDTO;
+		Logger.debug("Inside addTenant method: End", ApplicationPortalRepository.class);
+		return tenantEntity;
 	}
-	@Transactional
-	public void deleteTenant(String email) {
-		// TODO Auto-generated method stub
-		TypedQuery<TestTenantEntity> tenantQuery = em.createNamedQuery("TestTenantEntity.findByEmail", TestTenantEntity.class);
-		tenantQuery.setParameter("email", email);
-		TestTenantEntity testTenantEntity = tenantQuery.getSingleResult();
-		em.remove(testTenantEntity);
-	}
-	public List<TestTenantDTO> getTenantsData(String email) {
-		// TODO Auto-generated method stub
-		UserDTO user = getUserData(email);
-		List<TestTenantDTO>tenants=new ArrayList<TestTenantDTO>();
-		List<ApartmentDTO> apartments = user.getApartments();
-		for(ApartmentDTO apartment : apartments) {
-			tenants.addAll(apartment.getTesttenants());
+	
+	public TenantEntity getTenant(String email) {
+		Logger.debug("Inside getTenant method: Start", ApplicationPortalRepository.class);
+		TenantEntity tenantEntity = null;
+		TypedQuery<TenantEntity> tenentDataQuery = em.createNamedQuery("TenantEntity.findByEmail", TenantEntity.class);
+		tenentDataQuery.setParameter("email", email);
+		try {
+			tenantEntity = tenentDataQuery.getSingleResult();
+		} catch (NoResultException e) {
+			Logger.debug("No tenant return for the given email", ApplicationPortalRepository.class);
+			return null;
 		}
-		return tenants;
+		Logger.debug("Inside getTenant method: End", ApplicationPortalRepository.class);
+		return tenantEntity;
+	}
+
+	@Transactional
+	public void deleteTenant(TenantEntity tenantEntity) {
+		Logger.debug("Inside deleteTenant method: Start", ApplicationPortalRepository.class);
+		em.remove(tenantEntity);
+		Logger.debug("Inside deleteTenant method: End", ApplicationPortalRepository.class);
+	}
+
+	public List<TenantEntity> getAllTenantsForUser(String userEmail) {
+		UserEntity userEntity = getUser(userEmail);
+		List<TenantEntity> tenantEntities = new ArrayList<TenantEntity>();
+		List<ApartmentEntity> apartments = userEntity.getApartments();
+		for (ApartmentEntity apartment : apartments) {
+			tenantEntities.addAll(apartment.getTesttenants());
+		}
+		return tenantEntities;
 	}
 }

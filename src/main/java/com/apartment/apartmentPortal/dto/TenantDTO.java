@@ -13,10 +13,11 @@ public class TenantDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer tenantId;
-	private String name;
+	private String tenantName;
 	private String mobile;
 	private String email;
 	private Integer accountDetail;
+	private Integer apartmentId;
 
 	/**
 	 * @return the tenantId
@@ -32,18 +33,20 @@ public class TenantDTO implements Serializable {
 		this.tenantId = tenantId;
 	}
 
+	
+
 	/**
-	 * @return the name
+	 * @return the tenantName
 	 */
-	public String getName() {
-		return name;
+	public String getTenantName() {
+		return tenantName;
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param tenantName the tenantName to set
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setTenantName(String tenantName) {
+		this.tenantName = tenantName;
 	}
 
 	/**
@@ -88,10 +91,30 @@ public class TenantDTO implements Serializable {
 		this.accountDetail = accountDetail;
 	}
 
+	
+
+	/**
+	 * @return the apartmentId
+	 */
+	public Integer getApartmentId() {
+		return apartmentId;
+	}
+
+	/**
+	 * @param apartmentId the apartmentId to set
+	 */
+	public void setApartmentId(Integer apartmentId) {
+		this.apartmentId = apartmentId;
+	}
+
 	@Override
 	public String toString() {
-		return "TenantDTO [tenantId=" + tenantId + ", name=" + name + ", mobile=" + mobile + ", email=" + email
-				+ ", accountDetail=" + accountDetail + "]";
+		return "TestTenantDTO [tenantId=" + tenantId + ", tenantName=" + tenantName + ", mobile=" + mobile + ", email="
+				+ email + ", accountDetail=" + accountDetail + ", apartmentId=" + apartmentId + "]";
 	}
+
+
+
+	
 	
 }

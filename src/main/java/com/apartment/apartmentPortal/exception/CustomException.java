@@ -2,64 +2,29 @@ package com.apartment.apartmentPortal.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class CustomException {
-	
-	private HttpStatus status;
-	private String error;
-	private String description;
-	
-	public CustomException(HttpStatus status, String error, String description) {
-		super();
-		this.status = status;
-		this.error = error;
-		this.description = description;
-	}
+public class CustomException extends RuntimeException {
 
-	/**
-	 * @return the status
-	 */
-	public HttpStatus getStatus() {
-		return status;
-	}
+  private static final long serialVersionUID = 1L;
 
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(HttpStatus status) {
-		this.status = status;
-	}
+  private final String message;
+  private final HttpStatus httpStatus;
 
-	/**
-	 * @return the error
-	 */
-	public String getError() {
-		return error;
-	}
+  public CustomException(String message, HttpStatus httpStatus) {
+    this.message = message;
+    this.httpStatus = httpStatus;
+  }
 
-	/**
-	 * @param error the error to set
-	 */
-	public void setError(String error) {
-		this.error = error;
-	}
+  public String getMessage() {
+    return message;
+  }
 
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
+  public HttpStatus getHttpStatus() {
+    return httpStatus;
+  }
 
-	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	@Override
-	public String toString() {
-		return "CustomException [status=" + status + ", error=" + error + ", description=" + description + "]";
-	}	
+@Override
+public String toString() {
+	return "CustomException [message=" + message + ", httpStatus=" + httpStatus + "]";
+}
 
 }

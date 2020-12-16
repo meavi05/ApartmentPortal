@@ -37,7 +37,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint,
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 
-		CustomException exception = new CustomException(HttpStatus.FORBIDDEN, "User is Invalid.",
+		ReportableException exception = new ReportableException(HttpStatus.FORBIDDEN, "User is Invalid.",
 				"User is not authenticated.");
 
 		try {
