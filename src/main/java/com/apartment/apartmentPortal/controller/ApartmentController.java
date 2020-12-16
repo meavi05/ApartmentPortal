@@ -3,21 +3,22 @@
  */
 package com.apartment.apartmentPortal.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.apartment.apartmentPortal.Entity.ApartmentEntity;
-import com.apartment.apartmentPortal.Entity.TestTenantEntity;
-import com.apartment.apartmentPortal.Entity.UserEntity;
 import com.apartment.apartmentPortal.dto.ApartmentDTO;
-import com.apartment.apartmentPortal.dto.TestTenantDTO;
+import com.apartment.apartmentPortal.dto.TenantDTO;
 import com.apartment.apartmentPortal.dto.UserDTO;
+import com.apartment.apartmentPortal.exception.CustomException;
 import com.apartment.apartmentPortal.service.ApplicationPortalService;
 
 /**
@@ -27,50 +28,52 @@ import com.apartment.apartmentPortal.service.ApplicationPortalService;
 @CrossOrigin
 @RestController
 public class ApartmentController {
+	
 	@Autowired
 	ApplicationPortalService applicationPortalService;
 
 	@RequestMapping(value = "/")
-	public String addUser() {
-		return null;
+	public ResponseEntity<String> health() {
+		return new ResponseEntity<String>("Welcome", HttpStatus.OK);
 
 	}
 
 	@RequestMapping(value = "/authorizeUser", method = RequestMethod.POST)
-	@ResponseBody
-	public UserEntity authorizeUser(@RequestBody UserEntity userData) {
-		System.out.println(userData);
-		applicationPortalService.authorizeUser(userData);
-		return userData;
+	public ResponseEntity<UserDTO> authorizeUser(@RequestBody UserDTO user) {
+		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/getUserData/{email}", method = RequestMethod.GET)
-	@ResponseBody
-	public UserDTO getUserData(@PathVariable("email") String email) {
-		System.out.println(email);
-		return applicationPortalService.getUserData(email);
+	public ResponseEntity<UserDTO> getUserData(@PathVariable("email") String email) throws CustomException {
+		UserDTO userDto = applicationPortalService.getUserData(email);
+		return new ResponseEntity<UserDTO>(userDto, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/addApartment", method = RequestMethod.POST)
-	@ResponseBody
-	public ApartmentDTO addApartment(@RequestBody ApartmentEntity apartment) {
-		System.out.println(apartment);
+	public ResponseEntity<ApartmentDTO> addApartment(@RequestBody ApartmentDTO apartment) {
 		ApartmentDTO returnApartment = applicationPortalService.addApartment(apartment);
-		return returnApartment;
+		return new ResponseEntity<ApartmentDTO>(returnApartment, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
-	@ResponseBody
-		public UserEntity addUser(@RequestBody UserEntity userData) {
-			System.out.println(userData);
-		applicationPortalService.addUser(userData);
-		return userData;
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public ResponseEntity<UserDTO> register(@RequestBody UserDTO userData) throws CustomException {
+		applicationPortalService.register(userData);
+		return new ResponseEntity<UserDTO>(userData, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/addTenant", method = RequestMethod.POST)
-	@ResponseBody
-	public TestTenantDTO addTenant(@RequestBody TestTenantEntity tenant) {
-		System.out.println(tenant);
-		return applicationPortalService.addTenant(tenant);
+	public ResponseEntity<TenantDTO> addTenant(@RequestBody TenantDTO tenant) {
+		return new ResponseEntity<TenantDTO>(applicationPortalService.addTenant(tenant), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/deleteTenant/{email}", method = RequestMethod.DELETE)
+	public ResponseEntity<String> deleteTenant(@PathVariable("email") String email) {
+		applicationPortalService.deleteTenant(email);
+		return new ResponseEntity<String>("Tenant Deleted", HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/getTenantsData/{email}", method = RequestMethod.GET)
+	public ResponseEntity<List<TenantDTO>> getAllTenantsForUser(@PathVariable("email") String email) {
+		return new ResponseEntity<List<TenantDTO>>(applicationPortalService.getAllTenantsForUser(email), HttpStatus.OK);
 	}
 }

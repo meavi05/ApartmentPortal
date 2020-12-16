@@ -5,8 +5,6 @@ package com.apartment.apartmentPortal.dto;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 /**
  * @author avi08
  *
@@ -21,7 +19,6 @@ public class UserDTO {
 	private String dob;
 	private String gender;
 	private String userType;
-	@JsonManagedReference
 	private List<ApartmentDTO> apartments;
 	/**
 	 * @return the userName

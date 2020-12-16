@@ -4,20 +4,7 @@
 package com.apartment.apartmentPortal.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * @author avi08
@@ -31,11 +18,9 @@ public class ApartmentDTO implements Serializable {
 	private String apartmentName;
 	private String location;
 	private String apartmentOwner;
-	@JsonBackReference
-	private UserDTO user;
-	List<TenantDTO> tenants;
-	@JsonManagedReference
-	List<TestTenantDTO> testtenants;
+	private Integer userId;
+	List<TenantDTO_Old> tenants;
+	List<TenantDTO> testtenants;
 	
 	/**
 	 * @return the apartmentNumber
@@ -98,48 +83,45 @@ public class ApartmentDTO implements Serializable {
 		this.location = location;
 	}
 	/**
-	 * @return the user
+	 * @return the userId
 	 */
-	public UserDTO getUser() {
-		return user;
+	public Integer getUserId() {
+		return userId;
 	}
 	/**
-	 * @param user the user to set
+	 * @param userId the userId to set
 	 */
-	public void setUser(UserDTO user) {
-		this.user = user;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
-	
-	
-	
 	/**
 	 * @return the tenants
 	 */
-	public List<TenantDTO> getTenants() {
+	public List<TenantDTO_Old> getTenants() {
 		return tenants;
 	}
 	/**
 	 * @param tenants the tenants to set
 	 */
-	public void setTenants(List<TenantDTO> tenants) {
+	public void setTenants(List<TenantDTO_Old> tenants) {
 		this.tenants = tenants;
 	}
 	/**
 	 * @return the testtenants
 	 */
-	public List<TestTenantDTO> getTesttenants() {
+	public List<TenantDTO> getTesttenants() {
 		return testtenants;
 	}
 	/**
 	 * @param testtenants the testtenants to set
 	 */
-	public void setTesttenants(List<TestTenantDTO> testtenants) {
+	public void setTesttenants(List<TenantDTO> testtenants) {
 		this.testtenants = testtenants;
 	}
 	@Override
 	public String toString() {
 		return "ApartmentDTO [apartmentId=" + apartmentId + ", apartmentNumber=" + apartmentNumber + ", apartmentName="
-				+ apartmentName + ", location=" + location + ", apartmentOwner=" + apartmentOwner + ", user=" + user
-				+ ", testtenants=" + testtenants + "]";
+				+ apartmentName + ", location=" + location + ", apartmentOwner=" + apartmentOwner + ", userId=" + userId
+				+ ", tenants=" + tenants + ", testtenants=" + testtenants + "]";
 	}
 }
