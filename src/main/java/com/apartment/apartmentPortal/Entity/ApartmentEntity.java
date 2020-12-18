@@ -8,12 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -29,9 +33,18 @@ public class ApartmentEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer apartmentId;
+	
+	@Size(min = 2, max = 255, message = "Minimum apartment number length is 2")
+    @Column(unique = true, nullable = false)
 	private Integer apartmentNumber;
-	private String apartmentName;
+	
+    @Size(min = 4, max = 255, message = "Minimum apartment name length: 4 characters")
+    @Column(unique = true, nullable = false)
+    private String apartmentName;
+    
+    @Column(nullable = false)
 	private String location;
+	
 	private String apartmentOwner;
 	@ManyToOne(cascade = CascadeType.MERGE)
     @JsonBackReference
@@ -59,6 +72,7 @@ public class ApartmentEntity implements Serializable {
 	 */
 	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL,mappedBy="apartment")
+	@ElementCollection(fetch = FetchType.EAGER)
 	List<TenantEntity> testtenants;
 	
 	/**
