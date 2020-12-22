@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.apartment.apartmentPortal.dto.ApartmentDTO;
@@ -20,6 +21,7 @@ import com.apartment.apartmentPortal.dto.TenantDTO;
 import com.apartment.apartmentPortal.dto.UserDTO;
 import com.apartment.apartmentPortal.exception.CustomException;
 import com.apartment.apartmentPortal.service.ApplicationPortalService;
+
 
 /**
  * @author avi08
@@ -38,9 +40,10 @@ public class ApartmentController {
 
 	}
 
-	@RequestMapping(value = "/authorizeUser", method = RequestMethod.POST)
-	public ResponseEntity<UserDTO> authorizeUser(@RequestBody UserDTO user) {
-		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ResponseEntity<String> login( @RequestParam String email, @RequestParam String password) {
+		 String jwtToken =  applicationPortalService.login(email, password);
+		return new ResponseEntity<String>(jwtToken, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/getUserData/{email}", method = RequestMethod.GET)
@@ -56,9 +59,9 @@ public class ApartmentController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ResponseEntity<UserDTO> register(@RequestBody UserDTO userData) throws CustomException {
-		applicationPortalService.register(userData);
-		return new ResponseEntity<UserDTO>(userData, HttpStatus.OK);
+	public ResponseEntity<String> register(@RequestBody UserDTO userData) throws CustomException {
+		String jwtToken = applicationPortalService.register(userData);
+		return new ResponseEntity<String>(jwtToken, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/addTenant", method = RequestMethod.POST)

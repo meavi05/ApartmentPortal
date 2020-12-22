@@ -6,11 +6,13 @@ package com.apartment.apartmentPortal.Entity;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NamedQuery;
 
@@ -28,10 +30,19 @@ public class TenantEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer tenantId;
+	
+	@Column(nullable = false)
 	private String tenantName;
+	
+	@Size(min = 9, max = 11, message = "Minimum mobile length: 9 digits")
+	@Column(unique = true, nullable = false)
 	private String mobile;
+	
+	@Column(unique = true, nullable = false)
 	private String email;
+	
 	private Integer accountDetail;
+	
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JsonBackReference
 	private ApartmentEntity apartment;

@@ -9,12 +9,14 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NamedQuery;
 
@@ -32,7 +34,12 @@ public class UserEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer userId;
+	
+	@Size(min = 4, max = 255, message = "Minimum username length: 4 characters")
+	@Column(unique = true, nullable = false)
 	private String userName;
+	
+	@Size(min = 3, message = "Minimum password length: 3 characters")
 	private String password;
 	@Column(unique = true )
 	private String email;
@@ -42,6 +49,7 @@ public class UserEntity implements Serializable {
 	private String userType;
 	@OneToMany(cascade = CascadeType.ALL,mappedBy="user",fetch=FetchType.EAGER)
 	@JsonManagedReference
+	@ElementCollection(fetch = FetchType.EAGER)
 	private List<ApartmentEntity> apartments;
 	/**
 	 * @return the userName

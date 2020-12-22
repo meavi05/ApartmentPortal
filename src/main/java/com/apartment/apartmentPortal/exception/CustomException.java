@@ -1,5 +1,8 @@
 package com.apartment.apartmentPortal.exception;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 
 public class CustomException extends RuntimeException {
@@ -8,11 +11,18 @@ public class CustomException extends RuntimeException {
 
   private final String message;
   private final HttpStatus httpStatus;
+  private List<String> errors = new ArrayList<String>();
 
   public CustomException(String message, HttpStatus httpStatus) {
-    this.message = message;
+	this.message = message;
     this.httpStatus = httpStatus;
   }
+  
+  public CustomException(String message, HttpStatus httpStatus,List<String>errors) {
+		this.message = message;
+	    this.httpStatus = httpStatus;
+	    this.errors = errors;
+	  }
 
   public String getMessage() {
     return message;
@@ -22,9 +32,13 @@ public class CustomException extends RuntimeException {
     return httpStatus;
   }
 
+  public List<String> getErrors() {
+	return errors;
+  }
+
 @Override
 public String toString() {
-	return "CustomException [message=" + message + ", httpStatus=" + httpStatus + "]";
+	return "CustomException [message=" + message + ", httpStatus=" + httpStatus + ", errors=" + errors + "]";
 }
 
 }
