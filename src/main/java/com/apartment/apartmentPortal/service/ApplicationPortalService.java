@@ -57,6 +57,9 @@ public class ApplicationPortalService {
 			throw new CustomException("Invalid username/password supplied", HttpStatus.UNAUTHORIZED);
 		}
 	}
+	public String refresh(String email) {
+	    return jwtTokenProvider.createToken(email, new ArrayList<Role>());
+	  }
 
 	public UserDTO getUserData(String email) throws CustomException {
 		UserEntity userEntity = applicationPortalRepository.getUser(email);

@@ -46,6 +46,10 @@ public class ApartmentController {
 		return new ResponseEntity<String>(jwtToken, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/refresh", method = RequestMethod.GET)
+	  public String refresh(@RequestParam String email) {
+	    return applicationPortalService.refresh(email);
+	  } 
 	@RequestMapping(value = "/getUserData/{email}", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> getUserData(@PathVariable("email") String email) throws CustomException {
 		UserDTO userDto = applicationPortalService.getUserData(email);
