@@ -1,13 +1,13 @@
-package com.apartment.apartmentPortal;
+package com.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ApartmentPortalApplication {
+public class UserApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApartmentPortalApplication.class, args);
+		SpringApplication.run(UserApplication.class, args);
 		System.out.println("Helo");
 	}
 
