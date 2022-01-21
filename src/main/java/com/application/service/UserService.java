@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.application.Entity.ApartmentEntity;
 import com.application.Entity.TenantEntity;
@@ -17,6 +19,9 @@ import com.application.dto.ApartmentDTO;
 import com.application.dto.TenantDTO;
 import com.application.dto.UserDTO;
 import com.application.exception.CustomException;
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.discovery.EurekaClient;
+import com.netflix.discovery.shared.Application;
 
 @Service
 public class UserService {
@@ -25,14 +30,25 @@ public class UserService {
 	ModelMapper mapper;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	RestTemplate restTemplate;
+	@Autowired
+	EurekaClient eurekaClient;
+	@Value("${service.authService.serviceId}")
+	private String authServiceId;
 
 
 	public UserDTO getUserData(String email) throws CustomException {
-		UserEntity userEntity = userRepository.getUser(email);
-		if (userEntity == null)
+		Application application = eurekaClient.getApplication(authServiceId);
+		InstanceInfo instanceInfo = application.getInstances().get(0);
+        String url = "http://" + instanceInfo.getIPAddr() + ":" + instanceInfo.getPort() + "/" + "auth/getUserData/" + email;
+        System.out.println("URL" + url);
+        UserDTO user = restTemplate.getForObject(url, UserDTO.class);
+        System.out.println("RESPONSE " + user);
+		if (user == null)
 			throw new CustomException("User Not Found", HttpStatus.NOT_FOUND);
 		else
-			return mapper.map(userEntity, UserDTO.class);
+			return user;
 	}
 
 	public ApartmentDTO addApartment(ApartmentDTO apartment) {

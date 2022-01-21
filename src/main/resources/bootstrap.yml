@@ -4,6 +4,12 @@ spring:
   cloud:
     config:
       uri:  http://localhost:8091
+      
+service:
+  authService:
+    serviceId:auth-service
+    
+ 
      
  
   
